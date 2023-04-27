@@ -1,6 +1,29 @@
 {
 	"name": "master_party_core",
 	"properties": {
+		"activities": [
+			{
+				"name": "var3",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var3",
+					"value": "var3"
+				}
+			}
+		],
+		"variables": {
+			"var3": {
+				"type": "String"
+			},
+			"var4": {
+				"type": "String"
+			},
+			"var5": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "02_master_models"
 		},

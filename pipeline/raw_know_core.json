@@ -1,6 +1,32 @@
 {
 	"name": "raw_know_core",
 	"properties": {
+		"activities": [
+			{
+				"name": "var2",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var2",
+					"value": "var2"
+				}
+			}
+		],
+		"variables": {
+			"var2": {
+				"type": "String"
+			},
+			"var3": {
+				"type": "String"
+			},
+			"var4": {
+				"type": "String"
+			},
+			"var5": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "01_raw_source"
 		},

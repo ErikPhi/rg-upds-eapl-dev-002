@@ -1,6 +1,23 @@
 {
 	"name": "business_student_overview",
 	"properties": {
+		"activities": [
+			{
+				"name": "var5",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var5",
+					"value": "var5"
+				}
+			}
+		],
+		"variables": {
+			"var5": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "03_business_reports"
 		},
