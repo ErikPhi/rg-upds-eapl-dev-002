@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"host": "\\\\administrator\\C&\\data",
 			"userId": "administrator\\erik philipps",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmYWFiZDU0Ni0zOTRkLTRlNDgtYjllYy04Njk3ODY2MWFlNTMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjOTI5ODAyMi0xZTdkLTRiN2EtODJiMy0wOTNkZTQzYWRiMmEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "IRLocalErikPhilipps002",
