@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-upds-eapl-dev-2cr"
+		},
+		"ADLS_LinkendService_accountKey": {
+			"value": ""
+		},
+		"FileServer_LinkendService_password": {
+			"value": ""
+		},
+		"ADLS_LinkendService_properties_typeProperties_url": {
+			"value": "https://stupdseapldevops002.dfs.core.windows.net/"
+		},
+		"FileServer_LinkendService_properties_typeProperties_host": {
+			"value": "\\\\administrator\\C&\\data"
+		},
+		"FileServer_LinkendService_properties_typeProperties_userId": {
+			"value": "administrator\\erik philipps"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

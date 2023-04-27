@@ -1,0 +1,77 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-upds-eapl-dev-2cr"
+		},
+		"ADLS_LinkendService_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS_LinkendService'"
+		},
+		"FileServer_LinkendService_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileServer_LinkendService'"
+		},
+		"ADLS_LinkendService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
+		},
+		"FileServer_LinkendService_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\administrator\\C&\\data"
+		},
+		"FileServer_LinkendService_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "administrator\\erik philipps"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-upds-eapl-dev-2cr_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ADLS_LinkendService_accountKey": {
+						"value": "[parameters('ADLS_LinkendService_accountKey')]"
+					},
+					"FileServer_LinkendService_password": {
+						"value": "[parameters('FileServer_LinkendService_password')]"
+					},
+					"ADLS_LinkendService_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_LinkendService_properties_typeProperties_url')]"
+					},
+					"FileServer_LinkendService_properties_typeProperties_host": {
+						"value": "[parameters('FileServer_LinkendService_properties_typeProperties_host')]"
+					},
+					"FileServer_LinkendService_properties_typeProperties_userId": {
+						"value": "[parameters('FileServer_LinkendService_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

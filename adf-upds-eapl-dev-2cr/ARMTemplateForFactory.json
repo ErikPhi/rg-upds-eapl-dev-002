@@ -1,0 +1,287 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-upds-eapl-dev-2cr"
+		},
+		"ADLS_LinkendService_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS_LinkendService'"
+		},
+		"FileServer_LinkendService_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileServer_LinkendService'"
+		},
+		"ADLS_LinkendService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
+		},
+		"FileServer_LinkendService_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\administrator\\C&\\data"
+		},
+		"FileServer_LinkendService_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "administrator\\erik philipps"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/business_student_overview')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "var5",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "var5",
+							"value": "var5"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var5": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "03_business_reports"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:09Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/master_party_core')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "var3",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "var3",
+							"value": "var3"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var3": {
+						"type": "String"
+					},
+					"var4": {
+						"type": "String"
+					},
+					"var5": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "02_master_models"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:07Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/master_transaction_core')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "var4",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "var4",
+							"value": "var4"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var4": {
+						"type": "String"
+					},
+					"var5": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "02_master_models"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:12Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/raw_ga4_core')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "var1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "var1",
+							"value": "var1"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var1": {
+						"type": "String"
+					},
+					"var2": {
+						"type": "String"
+					},
+					"var3": {
+						"type": "String"
+					},
+					"var4": {
+						"type": "String"
+					},
+					"var5": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "01_raw_source"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:11Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/raw_know_core')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "var2",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "var2",
+							"value": "var2"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var2": {
+						"type": "String"
+					},
+					"var3": {
+						"type": "String"
+					},
+					"var4": {
+						"type": "String"
+					},
+					"var5": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "01_raw_source"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:11Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS_LinkendService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ADLS_LinkendService_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ADLS_LinkendService_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FileServer_LinkendService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('FileServer_LinkendService_properties_typeProperties_host')]",
+					"userId": "[parameters('FileServer_LinkendService_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('FileServer_LinkendService_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IRLocalErikPhilipps002",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IRLocalErikPhilipps002')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IRLocalErikPhilipps002')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		}
+	]
+}
