@@ -2,7 +2,7 @@
 	"name": "ds_source_csv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "FileServer_LinkendService",
+			"referenceName": "FileServer_LinkedService_Source",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
