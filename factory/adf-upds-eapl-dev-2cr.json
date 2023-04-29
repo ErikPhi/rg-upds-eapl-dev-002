@@ -1,4 +1,9 @@
 {
 	"name": "adf-upds-eapl-dev-2cr",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
 	"location": "eastus2"
 }
