@@ -21,8 +21,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().filename)",
-				"folderPath": "sharedknow/badges",
+				"fileName": {
+					"value": "@concat(dataset().objectname,'/',dataset().filename)",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().appname",
+					"type": "Expression"
+				},
 				"fileSystem": {
 					"value": "data",
 					"type": "Expression"
