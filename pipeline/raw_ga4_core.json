@@ -73,7 +73,7 @@
 						"parameters": {
 							"appname": "sharedknow",
 							"objectname": "badges",
-							"filename": "sk_badges.csv"
+							"filename": "sk_badges.parquet"
 						}
 					}
 				]
