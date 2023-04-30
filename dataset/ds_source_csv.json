@@ -2,14 +2,14 @@
 	"name": "ds_source_csv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "FileServer_LinkedService_Source",
+			"referenceName": "ADLS_LinkendService",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "FileServerLocation"
+				"type": "AzureBlobFSLocation"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
