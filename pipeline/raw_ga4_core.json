@@ -8,73 +8,9 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "var1",
+					"variableName": "var01",
 					"value": "var1"
 				}
-			},
-			{
-				"name": "Copiar todos los datos",
-				"type": "Copy",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "ParquetWriteSettings"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "ds_source_csv",
-						"type": "DatasetReference",
-						"parameters": {
-							"filename": "sk_badges.csv"
-						}
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "ds_target_parquet",
-						"type": "DatasetReference",
-						"parameters": {
-							"appname": "data",
-							"objectname": "badges",
-							"filename": "sk_badges.parquet"
-						}
-					}
-				]
 			}
 		],
 		"variables": {
@@ -91,6 +27,9 @@
 				"type": "String"
 			},
 			"var5": {
+				"type": "String"
+			},
+			"var01": {
 				"type": "String"
 			}
 		},
