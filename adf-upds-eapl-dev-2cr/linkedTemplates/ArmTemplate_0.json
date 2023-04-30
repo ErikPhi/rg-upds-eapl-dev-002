@@ -11,21 +11,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ADLS_LinkendService'"
 		},
-		"FileServer_LinkedService_Source_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'FileServer_LinkedService_Source'"
-		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "\\\\administrator\\C&\\data"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "administrator\\erik philipps"
 		}
 	},
 	"variables": {
@@ -258,66 +246,6 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IRLocalErikPhilipps002')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FileServer_LinkedService_Source')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "FileServer",
-				"typeProperties": {
-					"host": "[parameters('FileServer_LinkedService_Source_properties_typeProperties_host')]",
-					"userId": "[parameters('FileServer_LinkedService_Source_properties_typeProperties_userId')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('FileServer_LinkedService_Source_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IREAPL002",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IREAPL002')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_source_csv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer_LinkedService_Source",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"folderPath": "sharedknow"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer_LinkedService_Source')]"
-			]
 		}
 	]
 }

@@ -8,17 +8,8 @@
 		"ADLS_LinkendService_accountKey": {
 			"value": ""
 		},
-		"FileServer_LinkedService_Source_password": {
-			"value": ""
-		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"value": "https://stupdseapldevops002.dfs.core.windows.net/"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_host": {
-			"value": "\\\\administrator\\C&\\data"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_userId": {
-			"value": "administrator\\erik philipps"
 		}
 	}
 }

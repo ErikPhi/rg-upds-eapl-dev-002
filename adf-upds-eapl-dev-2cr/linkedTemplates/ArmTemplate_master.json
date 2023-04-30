@@ -11,21 +11,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ADLS_LinkendService'"
 		},
-		"FileServer_LinkedService_Source_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'FileServer_LinkedService_Source'"
-		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "\\\\administrator\\C&\\data"
-		},
-		"FileServer_LinkedService_Source_properties_typeProperties_userId": {
-			"type": "string",
-			"defaultValue": "administrator\\erik philipps"
 		},
 		"containerUri": {
 			"type": "string",
@@ -57,17 +45,8 @@
 					"ADLS_LinkendService_accountKey": {
 						"value": "[parameters('ADLS_LinkendService_accountKey')]"
 					},
-					"FileServer_LinkedService_Source_password": {
-						"value": "[parameters('FileServer_LinkedService_Source_password')]"
-					},
 					"ADLS_LinkendService_properties_typeProperties_url": {
 						"value": "[parameters('ADLS_LinkendService_properties_typeProperties_url')]"
-					},
-					"FileServer_LinkedService_Source_properties_typeProperties_host": {
-						"value": "[parameters('FileServer_LinkedService_Source_properties_typeProperties_host')]"
-					},
-					"FileServer_LinkedService_Source_properties_typeProperties_userId": {
-						"value": "[parameters('FileServer_LinkedService_Source_properties_typeProperties_userId')]"
 					}
 				}
 			},
