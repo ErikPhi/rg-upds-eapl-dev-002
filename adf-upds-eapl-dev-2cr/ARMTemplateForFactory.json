@@ -17,7 +17,7 @@
 		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
+			"defaultValue": "https://dlsupdseapldevxl1.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -147,12 +147,91 @@
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "var1",
+							"variableName": "var01",
 							"value": "var1"
 						}
 					},
 					{
-						"name": "Copy data1",
+						"name": "Get Metadata1",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "ds_source_csv_date",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posts",
+									"filename": "sk_posts_200801.csv",
+									"datename": "2008-01-01"
+								}
+							},
+							"fieldList": [
+								"structure",
+								"size",
+								"lastModified",
+								"exists"
+							],
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"var1": {
+						"type": "String"
+					},
+					"var2": {
+						"type": "String"
+					},
+					"var3": {
+						"type": "String"
+					},
+					"var4": {
+						"type": "String"
+					},
+					"var5": {
+						"type": "String"
+					},
+					"var01": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "01_raw_source"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-27T02:05:11Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_source_csv_date')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/raw_know_core')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy badges",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -210,9 +289,607 @@
 								"referenceName": "ds_target_parquet",
 								"type": "DatasetReference",
 								"parameters": {
-									"appname": "data",
+									"appname": "sharedknow",
 									"objectname": "badges",
 									"filename": "sk_badges.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy comments",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "comments",
+									"filename": "sk_comments.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "comments",
+									"filename": "sk_comments.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy linktypes",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "linktypes",
+									"filename": "sk_linktypes.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "linktypes",
+									"filename": "sk_linktypes.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy postlinks",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "postlinks",
+									"filename": "sk_postlinks.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "postlinks",
+									"filename": "sk_postlinks.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy posts 1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv_date",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posts",
+									"filename": "sk_posts_200801.csv",
+									"datename": "2008-01-01"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet_date",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posts",
+									"filename": "sk_posts_200801.parquet",
+									"datename": "2008-01-01"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy posts 2",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv_date",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posts",
+									"filename": "sk_posts_200901.csv",
+									"datename": "2009-01-01"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet_date",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posts",
+									"filename": "sk_posts_200901.parquet",
+									"datename": "2009-01-01"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy posttypes",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posttypes",
+									"filename": "sk_posttypes.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "posttypes",
+									"filename": "sk_posttypes.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy users",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "users",
+									"filename": "sk_users.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "users",
+									"filename": "sk_users.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy votes",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "votes",
+									"filename": "sk_votes.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "votes",
+									"filename": "sk_votes.parquet"
+								}
+							}
+						]
+					},
+					{
+						"name": "Copy votetypes",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "votetypes",
+									"filename": "sk_votetypes.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "sharedknow",
+									"objectname": "votetypes",
+									"filename": "sk_votetypes.parquet"
 								}
 							}
 						]
@@ -223,9 +900,6 @@
 					"cancelAfter": {}
 				},
 				"variables": {
-					"var1": {
-						"type": "String"
-					},
 					"var2": {
 						"type": "String"
 					},
@@ -236,6 +910,9 @@
 						"type": "String"
 					},
 					"var5": {
+						"type": "String"
+					},
+					"var01": {
 						"type": "String"
 					}
 				},
@@ -247,78 +924,10 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_source_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_target_parquet')]"
+				"[concat(variables('factoryId'), '/datasets/ds_target_parquet')]",
+				"[concat(variables('factoryId'), '/datasets/ds_source_csv_date')]",
+				"[concat(variables('factoryId'), '/datasets/ds_target_parquet_date')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/raw_know_core')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "var2",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "var2",
-							"value": "var2"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"variables": {
-					"var2": {
-						"type": "String"
-					},
-					"var3": {
-						"type": "String"
-					},
-					"var4": {
-						"type": "String"
-					},
-					"var5": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "01_raw_source"
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-04-27T02:05:11Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ADLS_LinkendService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('ADLS_LinkendService_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('ADLS_LinkendService_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IREAPL01')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_source_csv')]",
@@ -367,17 +976,53 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/ds_source_csv_date')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"appname": {
+						"type": "string"
+					},
+					"objectname": {
+						"type": "string"
+					},
+					"filename": {
+						"type": "string"
+					},
+					"datename": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				}
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().datename)",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_target_parquet')]",
@@ -426,12 +1071,52 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_source_csv_date')]",
+			"name": "[concat(parameters('factoryName'), '/ADLS_LinkendService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ADLS_LinkendService_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ADLS_LinkendService_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IREAPL01')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_target_parquet_date')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "ADLS_LinkendService",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -449,29 +1134,26 @@
 					}
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Parquet",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobStorageLocation",
+						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@concat(dataset().objectname,'/',dataset().datename,'/',dataset().filename)",
+							"value": "@dataset().filename",
 							"type": "Expression"
 						},
 						"folderPath": {
-							"value": "@dataset().appname",
+							"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().datename)",
 							"type": "Expression"
 						},
-						"container": "raw"
+						"fileSystem": "raw"
 					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					"compressionCodec": "snappy"
 				},
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
 			]
 		}
 	]

@@ -12,7 +12,7 @@
 			"value": ""
 		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
-			"value": "https://stupdseapldevops002.dfs.core.windows.net/"
+			"value": "https://dlsupdseapldevxl1.dfs.core.windows.net/"
 		}
 	}
 }

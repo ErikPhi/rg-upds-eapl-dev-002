@@ -17,7 +17,7 @@
 		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://stupdseapldevops002.dfs.core.windows.net/"
+			"defaultValue": "https://dlsupdseapldevxl1.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
