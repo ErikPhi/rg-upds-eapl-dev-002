@@ -65,13 +65,42 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "var3",
-						"type": "SetVariable",
+						"name": "Data flowUsers",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"variableName": "var3",
-							"value": "var3"
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"RawUsers": {
+										"appname": "sharedknow",
+										"objectname": "users",
+										"filename": "sk_users.parquet"
+									},
+									"Output": {}
+								},
+								"linkedServiceParameters": {
+									"RawUsers": {
+										"schemaLinkedService": {}
+									}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
 						}
 					}
 				],
@@ -96,7 +125,9 @@
 				"annotations": [],
 				"lastPublishTime": "2023-04-27T02:05:07Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/master_transaction_core')]",
@@ -142,19 +173,16 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "var1",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "var01",
-							"value": "var1"
-						}
-					},
-					{
 						"name": "Get Metadata1",
 						"type": "GetMetadata",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Execute Know Core",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -187,6 +215,20 @@
 							"formatSettings": {
 								"type": "DelimitedTextReadSettings"
 							}
+						}
+					},
+					{
+						"name": "Execute Know Core",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "raw_know_core",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
@@ -221,7 +263,8 @@
 				"lastPublishTime": "2023-04-27T02:05:11Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_source_csv_date')]"
+				"[concat(variables('factoryId'), '/datasets/ds_source_csv_date')]",
+				"[concat(variables('factoryId'), '/pipelines/raw_know_core')]"
 			]
 		},
 		{
@@ -1147,6 +1190,109 @@
 							"type": "Expression"
 						},
 						"fileSystem": "raw"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference"
+							},
+							"name": "RawUsers"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_source_parquet_master",
+								"type": "DatasetReference"
+							},
+							"name": "Output"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Id as string,",
+						"          CreationDate as string,",
+						"          DownVotes as string,",
+						"          LastAccessDate as string,",
+						"          Reputation as string,",
+						"          UpVotes as string,",
+						"          Views as string,",
+						"          AccountId as string,",
+						"          Email as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> RawUsers",
+						"RawUsers select(mapColumn(",
+						"          Id,",
+						"          DownVotes,",
+						"          LastAccessDate,",
+						"          Reputation,",
+						"          UpVotes,",
+						"          AccountId,",
+						"          Email",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 derive(Valoracion = toInteger(Reputation) + 100) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     filePattern:'master_users_[n].parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> Output"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_target_parquet')]",
+				"[concat(variables('factoryId'), '/datasets/ds_source_parquet_master')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_source_parquet_master')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS_LinkendService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "data",
+						"fileSystem": "master"
 					},
 					"compressionCodec": "snappy"
 				},
