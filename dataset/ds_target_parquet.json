@@ -30,7 +30,7 @@
 					"type": "Expression"
 				},
 				"fileSystem": {
-					"value": "data",
+					"value": "raw",
 					"type": "Expression"
 				}
 			},
