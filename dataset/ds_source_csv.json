@@ -14,9 +14,6 @@
 			},
 			"filename": {
 				"type": "string"
-			},
-			"datename": {
-				"type": "string"
 			}
 		},
 		"annotations": [],
