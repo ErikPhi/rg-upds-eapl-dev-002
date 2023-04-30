@@ -8,6 +8,9 @@
 		"ADLS_LinkendService_accountKey": {
 			"value": ""
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"ADLS_LinkendService_properties_typeProperties_url": {
 			"value": "https://stupdseapldevops002.dfs.core.windows.net/"
 		}
