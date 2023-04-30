@@ -25,11 +25,11 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@concat(dataset().objectname,'/',dataset().datename,'/',dataset().filename)",
+					"value": "@dataset().filename",
 					"type": "Expression"
 				},
 				"folderPath": {
-					"value": "@dataset().appname",
+					"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().datename)",
 					"type": "Expression"
 				},
 				"container": "raw"
