@@ -60,8 +60,6 @@
 						"referenceName": "ds_source_csv",
 						"type": "DatasetReference",
 						"parameters": {
-							"appname": "sharedknow",
-							"objectname": "badges",
 							"filename": "sk_badges.csv"
 						}
 					}
