@@ -238,7 +238,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/IREAPL002')]",
+			"name": "[concat(parameters('factoryName'), '/IREAPL01')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
