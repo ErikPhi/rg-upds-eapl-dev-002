@@ -5,13 +5,27 @@
 			"referenceName": "AzureBlobStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"appname": {
+				"type": "string"
+			},
+			"objectname": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sk_badges.csv",
-				"folderPath": "sharedknow/badges",
+				"fileName": {
+					"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().filename)",
+					"type": "Expression"
+				},
+				"folderPath": "sharedknow",
 				"container": "raw"
 			},
 			"columnDelimiter": "|",
