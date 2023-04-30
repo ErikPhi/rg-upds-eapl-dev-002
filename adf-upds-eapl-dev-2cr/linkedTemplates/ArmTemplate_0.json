@@ -434,7 +434,7 @@
 								"referenceName": "ds_target_parquet",
 								"type": "DatasetReference",
 								"parameters": {
-									"appname": "sharedknow",
+									"appname": "data",
 									"objectname": "badges",
 									"filename": "sk_badges.parquet"
 								}
