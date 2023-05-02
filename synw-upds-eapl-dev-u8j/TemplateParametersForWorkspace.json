@@ -4,6 +4,12 @@
 	"parameters": {
 		"workspaceName": {
 			"value": "synw-upds-eapl-dev-u8j"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://dlsupdseapldevxl1.dfs.core.windows.net/"
 		}
 	}
 }
