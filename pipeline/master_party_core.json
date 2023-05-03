@@ -21,7 +21,6 @@
 						"datasetParameters": {
 							"RawUsers": {
 								"appname": "sharedknow",
-								"objectname": "users",
 								"filename": "sk_users.parquet"
 							}
 						}

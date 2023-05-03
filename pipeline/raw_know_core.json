@@ -51,7 +51,6 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"appname": "sharedknow",
-							"objectname": "badges",
 							"filename": "sk_badges.csv"
 						}
 					}
@@ -62,7 +61,6 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"appname": "sharedknow",
-							"objectname": "badges",
 							"filename": "sk_badges.parquet"
 						}
 					}
