@@ -50,8 +50,7 @@
 						"referenceName": "ds_source_csv",
 						"type": "DatasetReference",
 						"parameters": {
-							"appname": "raw",
-							"objectname": "trabajo",
+							"appname": "trabajo",
 							"filename": "COMPETENCIAS.csv"
 						}
 					}
@@ -62,7 +61,6 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"appname": "raw",
-							"objectname": "trabajo",
 							"filename": "competencias.parquet"
 						}
 					}
