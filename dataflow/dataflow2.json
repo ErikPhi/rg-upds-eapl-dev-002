@@ -12,13 +12,29 @@
 					"name": "RawCompetencia"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_source_parquet_master",
+						"type": "DatasetReference"
+					},
+					"name": "Output"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> RawCompetencia"
+				"     format: 'parquet') ~> RawCompetencia",
+				"RawCompetencia sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Output"
 			]
 		}
 	}
