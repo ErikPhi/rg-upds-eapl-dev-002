@@ -9,7 +9,7 @@
 						"referenceName": "ds_target_parquet",
 						"type": "DatasetReference"
 					},
-					"name": "RawCompetencia"
+					"name": "RawPersonas"
 				}
 			],
 			"sinks": [
@@ -23,37 +23,46 @@
 			],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "FormatoFechaNacimiento"
+				},
+				{
+					"name": "ObtenerGeneracion"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
 				"          ID_ORGANIZATION as string,",
-				"          SCO_ID_HR as string,",
-				"          SCO_OR_HR_ROLE as string,",
-				"          SCO_DT_START_EVAL as string,",
-				"          STD_ID_HR as string,",
-				"          CPE_ORDINAL as string,",
-				"          CPE_ID_ETAPA as string,",
-				"          CPE_ID_VARIABLE as string,",
-				"          SCO_ID_LEVEL as string,",
-				"          SCO_VALUE_RAT as string",
+				"          STD_ID_PERSON as string,",
+				"          STD_N_FAM_NAME_1 as string,",
+				"          STD_N_MAIDEN_NAME as string,",
+				"          STD_N_FIRST_NAME as string,",
+				"          STD_N_USUAL_NAME as string,",
+				"          STD_ID_GENDER as string,",
+				"          STD_ID_SALUTATION as string,",
+				"          STD_DT_BIRTH as string,",
+				"          STD_ID_COUNTRY as string,",
+				"          STD_ID_GEO_DIV as string,",
+				"          STD_ID_SUB_GEO_DIV as string,",
+				"          SSP_ID_PAIS_EMISOR as string,",
+				"          STD_SSN as string,",
+				"          SCO_PHOTO as string,",
+				"          SCO_HOME_PAGE as string,",
+				"          SSP_ID_TP_DOC as string,",
+				"          SAR_N_MARRIED_NAME as string,",
+				"          SUS_DEATH_DATE as string,",
+				"          DT_LAST_UPDATE as string,",
+				"          SCO_OR_CURR as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> RawCompetencia",
-				"RawCompetencia select(mapColumn(",
-				"          ID_ORGANIZATION,",
-				"          SCO_ID_HR,",
-				"          SCO_DT_START_EVAL,",
-				"          CPE_ID_VARIABLE,",
-				"          SCO_ID_LEVEL,",
-				"          SCO_VALUE_RAT",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"     format: 'parquet') ~> RawPersonas",
+				"RawPersonas derive(BIRTH_FORMAT = year(toDate(STD_DT_BIRTH))) ~> FormatoFechaNacimiento",
+				"FormatoFechaNacimiento derive(Generacion = iif(BIRTH_FORMAT >= 1997 && BIRTH_FORMAT <= 2012, \"Generaciòn Z\", \r",
+				"iif(BIRTH_FORMAT >= 1981 && BIRTH_FORMAT <= 1996, \"Millenial\", \r",
+				"iif(BIRTH_FORMAT >= 1965 && BIRTH_FORMAT <= 1980, \"Generaciòn X\",\r",
+				"iif(BIRTH_FORMAT >= 1946 && BIRTH_FORMAT <= 1964, \"Baby Boomer\", \"Tradicionalista\"))))) ~> ObtenerGeneracion",
+				"ObtenerGeneracion sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     filePattern:'master_detalle_comp_cola[n].parquet',",
