@@ -9,9 +9,6 @@
 			"appname": {
 				"type": "string"
 			},
-			"objectname": {
-				"type": "string"
-			},
 			"filename": {
 				"type": "string"
 			}
