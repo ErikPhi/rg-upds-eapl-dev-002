@@ -84,15 +84,9 @@
 								"datasetParameters": {
 									"RawUsers": {
 										"appname": "sharedknow",
-										"objectname": "users",
 										"filename": "sk_users.parquet"
 									},
 									"Output": {}
-								},
-								"linkedServiceParameters": {
-									"RawUsers": {
-										"schemaLinkedService": {}
-									}
 								}
 							},
 							"staging": {},
@@ -210,6 +204,7 @@
 							],
 							"storeSettings": {
 								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
 								"enablePartitionDiscovery": false
 							},
 							"formatSettings": {
@@ -322,7 +317,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "badges",
 									"filename": "sk_badges.csv"
 								}
 							}
@@ -333,7 +327,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "badges",
 									"filename": "sk_badges.parquet"
 								}
 							}
@@ -388,7 +381,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "comments",
 									"filename": "sk_comments.csv"
 								}
 							}
@@ -399,7 +391,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "comments",
 									"filename": "sk_comments.parquet"
 								}
 							}
@@ -454,7 +445,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "linktypes",
 									"filename": "sk_linktypes.csv"
 								}
 							}
@@ -465,7 +455,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "linktypes",
 									"filename": "sk_linktypes.parquet"
 								}
 							}
@@ -520,7 +509,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "postlinks",
 									"filename": "sk_postlinks.csv"
 								}
 							}
@@ -531,7 +519,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "postlinks",
 									"filename": "sk_postlinks.parquet"
 								}
 							}
@@ -722,7 +709,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "posttypes",
 									"filename": "sk_posttypes.csv"
 								}
 							}
@@ -733,7 +719,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "posttypes",
 									"filename": "sk_posttypes.parquet"
 								}
 							}
@@ -788,7 +773,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "users",
 									"filename": "sk_users.csv"
 								}
 							}
@@ -799,7 +783,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "users",
 									"filename": "sk_users.parquet"
 								}
 							}
@@ -854,7 +837,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "votes",
 									"filename": "sk_votes.csv"
 								}
 							}
@@ -865,7 +847,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "votes",
 									"filename": "sk_votes.parquet"
 								}
 							}
@@ -920,7 +901,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "votetypes",
 									"filename": "sk_votetypes.csv"
 								}
 							}
@@ -931,7 +911,6 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"appname": "sharedknow",
-									"objectname": "votetypes",
 									"filename": "sk_votetypes.parquet"
 								}
 							}
@@ -973,6 +952,91 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/raw_trabajo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "competencias",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_source_csv",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "trabajo",
+									"filename": "COMPETENCIAS.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"appname": "raw",
+									"filename": "competencias.parquet"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "01_raw_source"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_source_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_target_parquet')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_source_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -985,9 +1049,6 @@
 					"appname": {
 						"type": "string"
 					},
-					"objectname": {
-						"type": "string"
-					},
 					"filename": {
 						"type": "string"
 					}
@@ -998,7 +1059,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": {
-							"value": "@concat(dataset().objectname,'/',dataset().filename)",
+							"value": "@dataset().filename",
 							"type": "Expression"
 						},
 						"folderPath": {
@@ -1007,7 +1068,7 @@
 						},
 						"container": "raw"
 					},
-					"columnDelimiter": "|",
+					"columnDelimiter": ";",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
@@ -1068,7 +1129,75 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_source_parquet_master')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS_LinkendService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "trabajo",
+						"fileSystem": "master"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_target_parquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS_LinkendService",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"appname": {
+						"type": "string"
+					},
+					"filename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().appname",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "raw",
+							"type": "Expression"
+						}
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_target_parquet_date')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1085,6 +1214,9 @@
 					},
 					"filename": {
 						"type": "string"
+					},
+					"datename": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -1093,17 +1225,14 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@concat(dataset().objectname,'/',dataset().filename)",
+							"value": "@dataset().filename",
 							"type": "Expression"
 						},
 						"folderPath": {
-							"value": "@dataset().appname",
+							"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().datename)",
 							"type": "Expression"
 						},
-						"fileSystem": {
-							"value": "raw",
-							"type": "Expression"
-						}
+						"fileSystem": "raw"
 					},
 					"compressionCodec": "snappy"
 				},
@@ -1152,52 +1281,6 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_target_parquet_date')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ADLS_LinkendService",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"appname": {
-						"type": "string"
-					},
-					"objectname": {
-						"type": "string"
-					},
-					"filename": {
-						"type": "string"
-					},
-					"datename": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().filename",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat(dataset().appname,'/',dataset().objectname,'/',dataset().datename)",
-							"type": "Expression"
-						},
-						"fileSystem": "raw"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
@@ -1278,28 +1361,50 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_source_parquet_master')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/dataflow2')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ADLS_LinkendService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "data",
-						"fileSystem": "master"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_target_parquet",
+								"type": "DatasetReference"
+							},
+							"name": "RawCompetencia"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_source_parquet_master",
+								"type": "DatasetReference"
+							},
+							"name": "Output"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> RawCompetencia",
+						"RawCompetencia sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> Output"
+					]
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ADLS_LinkendService')]"
+				"[concat(variables('factoryId'), '/datasets/ds_target_parquet')]",
+				"[concat(variables('factoryId'), '/datasets/ds_source_parquet_master')]"
 			]
 		}
 	]
