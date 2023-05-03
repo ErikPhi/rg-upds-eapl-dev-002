@@ -39,7 +39,7 @@
 				"RawCompetencia sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
-				"     filePattern:'master_competencias[n].parquet',",
+				"     filePattern:'master_detalle_comp_cola[n].parquet',",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
