@@ -10,13 +10,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "RawUsers"
-				},
-				{
-					"dataset": {
-						"referenceName": "ds_target_parquet",
-						"type": "DatasetReference"
-					},
-					"name": "RawCompetencias"
 				}
 			],
 			"sinks": [
@@ -26,13 +19,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "Output"
-				},
-				{
-					"dataset": {
-						"referenceName": "ds_source_parquet_master",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -59,10 +45,6 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> RawUsers",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> RawCompetencias",
 				"RawUsers select(mapColumn(",
 				"          Id,",
 				"          DownVotes,",
@@ -83,16 +65,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> Output",
-				"RawCompetencias sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     format: 'parquet',",
-				"     filePattern:'master_competencias_[n].parquet',",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> Output"
 			]
 		}
 	}
